@@ -46,8 +46,8 @@
     (cons p (cons init acc))))
 
 (defun loop-delay ()
-  (if *interpreter-delay*
-      (sleep *interpreter-delay*)
+  (if *interpreter-delay-time*
+      (sleep *interpreter-delay-time*)
       (progn (setf *interpreter-delay-time* 0.005)
 	     (loop-delay))))
 
@@ -112,7 +112,5 @@
   ;; set-ego-motion
   (set-ego-motion mode vars)
   (recalculate-obj-directions)
-  (if (/= (get-mem vars :v3) prev-score)
-      (update-status-line)
-      (if (not (eq (get-mem vars :f9) prev-snd))
-	  (update-status-line))))
+  (cond ((/= (get-mem vars :v3) prev-score) (update-status-line))
+	((not (eq (get-mem flags :f9) prev-snd)) (update-status-line))))
