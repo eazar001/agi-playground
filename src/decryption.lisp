@@ -17,14 +17,11 @@
 (defun xor-decrypt (key-bytes source-bytes)
   (let* ((source-len (list-length source-bytes))
 	 (key-len (list-length key-bytes))
-	 (key-cycles (car (multiple-value-list (/ (float source-len) key-len))))
-	 (key-rem (mod source-len key-len))
-	 (last-cycle (subseq key-bytes 0 key-rem))
-	 (first-cycles (loop for y from 1 to key-cycles
-			  collecting (loop for x in key-bytes
-					collecting x)))
-	 (all-key-cycles (append (apply #'concatenate 'list first-cycles) last-cycle)))
-    (mapcar #'logxor all-key-cycles source-bytes)))
+	 (c (multiple-value-list (floor (/ source-len key-len))))
+	 (key-cycles (+ (car c) (numerator (cadr c))))
+	 (key-cycle-bytes (apply #'concatenate 'list (loop for i from 1 to key-cycles
+							collect (loop for b in key-bytes collect b)))))
+    (mapcar #'logxor key-cycle-bytes source-bytes)))
 
 (defun key-string-to-bytes (key-string)
   (loop for c in (concatenate 'list key-string) collecting (char-code c)))
