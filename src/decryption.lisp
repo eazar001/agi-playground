@@ -44,8 +44,8 @@
 	 ;; this is the final sequence of bytes we're truly interested in
 	 (bytes (second header-data)))
 
-    (mapcar (lambda (chars) (concatenate 'string chars))
-	    (mapcar (lambda (char) (mapcar #'code-char char)) (parse-object-codes bytes)))))
+    (mapcar (lambda (codes) (concatenate 'string (mapcar #'code-char codes)))
+	    (parse-object-codes bytes))))
 
 (defun parse-object-codes (bytes)
   (let ((r (do* ((remaining-bytes (cons 0 bytes) (rest remaining-bytes))
