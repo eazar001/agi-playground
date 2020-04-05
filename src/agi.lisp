@@ -1,10 +1,8 @@
 ;;;; Experimental playground for AGI interpreter
 
-
 (require :sdl2)
 
 (defvar *interpreter-delay-time* nil)
-
 
 (defun start ()
   "Initializes main state and starts the work-cycle for the interpreter loop."
@@ -93,12 +91,11 @@
 (defun logic0-post-update ()
   nil)
 
-
 ;;; set ego motion depending on interpreter mode state
 ;;; should throw exception on out of domain state
 (defun set-ego-motion (mode vars &optional v6)
-  (cond ((eq mode 'program-control) (get-mem vars :v6))
-	((eq mode 'player-control) (set-mem vars :v6 v6))))
+  (cond ((eql mode 'program-control) (get-mem vars :v6))
+	((eql mode 'player-control) (set-mem vars :v6 v6))))
 
 (defun work-cycle (vars flags strings mode prev-score prev-snd)
   ;; have not decided on how to interpret delay yet
@@ -115,4 +112,4 @@
   (set-ego-motion mode vars)
   (recalculate-obj-directions)
   (cond ((/= (get-mem vars :v3) prev-score) (update-status-line))
-	((not (eq (get-mem flags :f9) prev-snd)) (update-status-line))))
+	((not (eql (get-mem flags :f9) prev-snd)) (update-status-line))))

@@ -21,7 +21,7 @@
 		 (current-byte-seq nil (if (/= 0 next-char)
 					   (cons next-char current-byte-seq)
 					   current-byte-seq)))
-		((or (eq next-char 0) (eq next-char nil))
+		((or (eql next-char 0) (eql next-char nil))
 		 (list (rest remaining-bytes) (reverse current-byte-seq))))))
 
     (if (first r)
@@ -54,4 +54,3 @@
 	 ;; this is the maximum number of animated objects
 	 (max-animated-objects (third header)))
     (list max-animated-objects inventory-data inventory-metadata inventory-start)))
-
