@@ -1,6 +1,10 @@
+(defpackage #:agi
+  (:use :cl #:object)
+  (:export #:start))
+
 ;;;; Experimental playground for AGI interpreter
 
-(require :sdl2)
+(in-package #:agi)
 
 (defvar *interpreter-delay-time* nil)
 

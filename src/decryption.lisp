@@ -1,3 +1,9 @@
+(defpackage #:decryption
+  (:use :cl)
+  (:export #:decrypt-object-file))
+
+(in-package #:decryption)
+
 ;;; Encryption/Decryption routines for AGI resources
 
 ;;; The first 3 bytes is a header with bytes 0 - 1 being the offset of the inventory area (+ base of 3).

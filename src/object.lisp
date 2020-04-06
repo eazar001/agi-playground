@@ -1,3 +1,9 @@
+(defpackage #:object
+  (:use :cl #:decryption)
+  (:export #:extract-objects))
+
+(in-package #:object)
+
 (defun extract-objects (file)
   "Extracts (index, inventory string, room-location) triplets from an encrypted OBJECT resource file into a list."
   (let* ((decrypted-bytes (decrypt-object-file file))
