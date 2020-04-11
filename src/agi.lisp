@@ -11,10 +11,10 @@
 (defun start ()
   "Initializes main state and starts the work-cycle for the interpreter loop."
   (let* ((state (init))
-	 (vars (getf state :vars))
-	 (flags (getf state :flags))
-	 (strings (getf state :strings))
-	 (mode (getf state :mode)))
+         (vars (getf state :vars))
+         (flags (getf state :flags))
+         (strings (getf state :strings))
+         (mode (getf state :mode)))
     (work-cycle vars flags strings mode 0 'on)))
 
 ;;; initialization of the state of the interpreter as a list of variables, memory, flags, etc.
@@ -27,8 +27,8 @@
 ;;; variables 0 - 26 and flags 0 - 16 are reserved for internal use
 (defun init-mem ()
   (let ((vars (build-mem-region "V" :init nil :end 255))
-	(flags (build-mem-region "F" :init nil :end 255))
-	(strings (build-mem-region "S" :init nil :end 12)))
+        (flags (build-mem-region "F" :init nil :end 255))
+        (strings (build-mem-region "S" :init nil :end 12)))
     ;; initialize player's score to 0
     (set-mem vars :v3 0)
     ;; by default, initialize sound to 'on' for now
@@ -52,7 +52,7 @@
   (if *interpreter-delay-time*
       (sleep *interpreter-delay-time*)
       (progn (setf *interpreter-delay-time* 0.005)
-	     (loop-delay))))
+             (loop-delay))))
 
 ;;; set the value of a flag in a specified region (variables, flag, strings)
 (defun set-mem (region key new-value)
@@ -99,7 +99,7 @@
 ;;; should throw exception on out of domain state
 (defun set-ego-motion (mode vars &optional v6)
   (cond ((eql mode 'program-control) (get-mem vars :v6))
-	((eql mode 'player-control) (set-mem vars :v6 v6))))
+        ((eql mode 'player-control) (set-mem vars :v6 v6))))
 
 (defun work-cycle (vars flags strings mode prev-score prev-snd)
   ;; have not decided on how to interpret delay yet
@@ -116,4 +116,4 @@
   (set-ego-motion mode vars)
   (recalculate-obj-directions)
   (cond ((/= (get-mem vars :v3) prev-score) (update-status-line))
-	((not (eql (get-mem flags :f9) prev-snd)) (update-status-line))))
+        ((not (eql (get-mem flags :f9) prev-snd)) (update-status-line))))
