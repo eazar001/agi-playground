@@ -54,5 +54,5 @@
 ;;; to a new output file
 (defun decrypt-object-to-file (file-path new-file-path)
   (with-open-file (stream new-file-path :direction :output :element-type '(unsigned-byte 8))
-    (loop for b in (decrypt-object-file file-path)
-       collect (write-byte b stream))))
+    (dolist (b (loop for b in (decrypt-object-file file-path) collect b))
+      (write-byte b stream))))

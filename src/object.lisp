@@ -1,11 +1,34 @@
 (defpackage #:object
   (:use :cl #:decryption)
-  (:export #:extract-objects))
+  (:export #:extract-inventory-objects #:index #:room-location #:name))
 
 (in-package #:object)
 
-(defun extract-objects (file)
-  "Extracts (index, inventory string, room-location) triplets from an encrypted OBJECT resource file into a list."
+(defclass inventory-object ()
+  ((index
+    :initarg :index
+    :reader index
+    :documentation "The index of the inventory-object.")
+   (room-location
+    :initarg :room-location
+    :reader room-location
+    :documentation "The integer marker for the room-location the inventory-object resides in.")
+   (name
+    :initarg :name
+    :reader name
+    :documentation "A string that identifies the inventory-object.")))
+
+(defun extract-inventory-objects (file)
+  "Extract inventory-data and instantiate inventory objects from an encrypted OBJECT resource file to a list."
+  (mapcar (lambda (triplet)
+	    (let ((index (first triplet))
+		  (room-location (second triplet))
+		  (name (third triplet)))
+	      (make-instance 'inventory-object :index index :name name :room-location room-location)))
+	  (extract-object-triplets file)))
+
+(defun extract-object-triplets (file)
+  "Extracts (index, room-location, inventory string) triplets from an encrypted OBJECT resource file into a list."
   (let* ((decrypted-bytes (decrypt-object-file file))
 	 (header-data (extract-object-header-data decrypted-bytes))
 	 ;; (max-animated-objects (first header-data))
