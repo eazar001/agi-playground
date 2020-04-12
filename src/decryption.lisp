@@ -1,5 +1,5 @@
 (defpackage #:decryption
-  (:use :cl)
+  (:use :cl #:file)
   (:export #:decrypt-object-file))
 
 (in-package #:decryption)
@@ -39,15 +39,6 @@
 (defun key-string-to-bytes (key-string)
   (loop for c in (concatenate 'list key-string) collect (char-code c)))
 
-(defun read-file-bytes-to-list (file-path)
-  (with-open-file (stream file-path :direction :input :element-type '(unsigned-byte 8))
-    (read-bytes-to-list stream)))
-
-(defun read-bytes-to-list (stream)
-  (let ((b (read-byte stream nil)))
-    (if b
-        (cons b (read-bytes-to-list stream))
-        nil)))
 
 ;;; this should only really be used for debugging with a hex editor
 ;;; simply decrypt the object file as with decrypt-object-file but instead send the bytes

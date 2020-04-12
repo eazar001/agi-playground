@@ -4,6 +4,10 @@
 
 (in-package #:object)
 
+;;; OBJECT resource which contains all information about inventory objects, what rooms they start in, and what
+;;; integer IDs they possess
+;;; All decryption and subsequent extraction for OBJECT resource files occur here.
+
 (defclass inventory-object ()
   ((index
     :initarg :index
