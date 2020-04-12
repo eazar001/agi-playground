@@ -18,13 +18,16 @@
     :reader name
     :documentation "A string that identifies the inventory-object.")))
 
+(defun make-inventory-object (index name room-location)
+  (make-instance 'inventory-object :index index :name name :room-location room-location))
+
 (defun extract-inventory-objects (file)
   "Extract inventory-data and instantiate inventory objects from an encrypted OBJECT resource file to a list."
   (mapcar (lambda (triplet)
             (let ((index (first triplet))
                   (room-location (second triplet))
                   (name (third triplet)))
-              (make-instance 'inventory-object :index index :name name :room-location room-location)))
+              (make-inventory-object index room-location name)))
           (extract-object-triplets file)))
 
 (defun extract-object-triplets (file)
