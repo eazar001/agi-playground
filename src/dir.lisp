@@ -20,7 +20,6 @@
 ;;; Reads three hex-encoded bytes from a VIEWDIR file in order to extract info about positioning and offsets in
 ;;; the corresponding VOL file(s); this reader format is for AGI version 2
 (defun read-view-byte-triplet (bytes)
-  ;; we only expect three bytes at a time here encoded as hex strings
   (let* ((first-byte (car bytes))
          (second-byte (cadr bytes))
          (third-byte (caddr bytes))
