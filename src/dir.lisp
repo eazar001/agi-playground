@@ -14,16 +14,19 @@
 (defun partition-triplets (bytes)
   (if bytes
       (destructuring-bind (a b c . tail) bytes
-        (cons (mapcar (lambda (x) (format nil "~2,'0X" x)) (list a b c)) (partition-triplets tail)))
+        (cons (list a b c) (partition-triplets tail)))
       nil))
 
 ;;; Reads three hex-encoded bytes from a VIEWDIR file in order to extract info about positioning and offsets in
 ;;; the corresponding VOL file(s); this reader format is for AGI version 2
-(defun read-view-byte-triplet (byte-strings)
+(defun read-view-byte-triplet (bytes)
   ;; we only expect three bytes at a time here encoded as hex strings
-  (let* ((chars (apply #'concatenate 'list byte-strings))
-         (non-vol-chars (cdr chars))
-         (vol (parse-integer (string (car chars)) :radix 16))
-         (offset (parse-integer (concatenate 'string non-vol-chars) :radix 16)))
+  (let* ((first-byte (car bytes))
+         (second-byte (cadr bytes))
+         (third-byte (caddr bytes))
+         (vol (ash (logand first-byte 240) -4))
+         (nibble (logand first-byte 15))
+         (offset-tail (logior (ash second-byte 8) third-byte))
+         (offset (logior (ash nibble 16) offset-tail)))
     ;; data structure contains the number of the volume that contains this data and the offset in that volume
     (list vol offset)))
