@@ -6,4 +6,5 @@
   :components ((:file "agi" :depends-on ("object"))
                (:file "object" :depends-on ("decryption"))
                (:file "decryption" :depends-on ("file"))
+               (:file "dir" :depends-on ("file"))
                (:file "file")))

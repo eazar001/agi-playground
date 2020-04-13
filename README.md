@@ -5,7 +5,7 @@ Experimental playground for AGI
 
 * [x] Decrypt OBJECT resource
 * [x] Decode and extract objects from OBJECT resource
-* [ ] Decode VIEWDIR (sprites & animations offsets for VOL)
+* [x] Decode VIEWDIR (sprites & animations offsets for VOL)
 * [ ] Decode VIEW (sprites & animations data in VOL)
 * [ ] Decode LOGDIR (code offsets for VOL)
 * [ ] Decode LOG (code in VOL)

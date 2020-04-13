@@ -39,7 +39,6 @@
 (defun key-string-to-bytes (key-string)
   (loop for c in (concatenate 'list key-string) collect (char-code c)))
 
-
 ;;; this should only really be used for debugging with a hex editor
 ;;; simply decrypt the object file as with decrypt-object-file but instead send the bytes
 ;;; to a new output file
