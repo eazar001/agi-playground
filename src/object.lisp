@@ -22,7 +22,7 @@
     :reader name
     :documentation "A string that identifies the inventory-object.")))
 
-(defun make-inventory-object (index name room-location)
+(defun make-inventory-object (index room-location name)
   (make-instance 'inventory-object :index index :name name :room-location room-location))
 
 (defun extract-inventory-objects (file)
