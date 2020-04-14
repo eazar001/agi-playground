@@ -52,9 +52,9 @@
               object-rooms strings))))
 
 (defun parse-object-codes (bytes)
-  (let ((r (do* ((remaining-bytes (cons 0 bytes) (rest remaining-bytes))
-                 (next-char (first bytes) (first remaining-bytes))
-                 (current-byte-seq nil (if (/= 0 next-char)
+  (let ((r (do* ((remaining-bytes (cons nil bytes) (rest remaining-bytes))
+                 (next-char (car bytes) (car remaining-bytes))
+                 (current-byte-seq nil (if (/= next-char 0)
                                            (cons next-char current-byte-seq)
                                            current-byte-seq)))
                 ((or (eql next-char 0) (eql next-char nil))
@@ -66,16 +66,16 @@
 
 ;;; gives us (index, room-location)
 (defun get-object-room-pairs (triplets i inventory-start)
-  (let* ((f (first triplets))
-         (fst (cond ((= (length f) 1) (concatenate 'string "0" f))
-                    (t f))))
+  (let* ((fst (first triplets))
+         (snd (second triplets))
+         (thd (third triplets)))
 
     (cond ((not fst) nil)
-          ((< (+ (parse-integer (concatenate 'string (second triplets) fst) :radix 16) 3) inventory-start)
+          ((< (+ (logior (ash snd 8) fst) 3) inventory-start)
            (get-object-room-pairs (cdddr triplets) i inventory-start))
           (t (cons
-                (list i (parse-integer (third triplets) :radix 16))
-                (get-object-room-pairs (cdddr triplets) (1+ i) inventory-start))))))
+              (list i thd)
+              (get-object-room-pairs (cdddr triplets) (1+ i) inventory-start))))))
 
 (defun extract-object-header-data (bytes)
   (let* ((header (subseq bytes 0 3))
@@ -84,8 +84,7 @@
          ;; the true starting index is the offset plus the base byte-length of the header plus two chars
          ;; for the first inventory item char
          (inventory-start (+ inventory-offset 3 2))
-         (inventory-metadata (mapcar (lambda (x) (write-to-string x :base 16))
-                                     (subseq bytes 3 (+ inventory-offset 3))))
+         (inventory-metadata (subseq bytes 3 (+ inventory-offset 3)))
          (inventory-data (subseq bytes inventory-start))
          ;; this is the maximum number of animated objects
          (max-animated-objects (third header)))
