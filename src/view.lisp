@@ -21,12 +21,6 @@
   (destructuring-bind (cel-width cel-height cel-mirroring) bytes
     nil))
 
-;;; reads one byte of pixel-data
-(defun read-pixel-data-byte (byte)
-  (let ((color (ash (logand byte 240) -4))
-        (num-pixels (logand byte 15)))
-    (list color num-pixels)))
-
 (defun read-cel-data (byte)
   "Reads a list of bytes and transforming them into a list of pairs containing pixel RLE data."
   (let ((color (nibble byte :hi))
