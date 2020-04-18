@@ -1,5 +1,5 @@
 (defpackage #:dir
-  (:use :cl #:file)
+  (:use :cl #:file #:bytes)
   (:export #:read-view-dir))
 
 (in-package #:dir)
@@ -23,9 +23,9 @@
   (let* ((first-byte (car bytes))
          (second-byte (cadr bytes))
          (third-byte (caddr bytes))
-         (vol (ash (logand first-byte 240) -4))
-         (nibble (logand first-byte 15))
+         (vol (nibble first-byte :hi))
+         (next-bit (nibble first-byte :lo))
          (offset-tail (logior (ash second-byte 8) third-byte))
-         (offset (logior (ash nibble 16) offset-tail)))
+         (offset (logior (ash next-bit 16) offset-tail)))
     ;; data structure contains the number of the volume that contains this data and the offset in that volume
     (list vol offset)))
