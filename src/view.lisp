@@ -7,9 +7,25 @@
 (defparameter *screen-width* 640)
 (defparameter *screen-height* 480)
 
-(defvar test-image (list #x4F #x4A #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09 #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09 #x41 #x00 #x41 #x08 #x81 #x71 #x82 #x71 #x0A #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09 #x41 #x00 #x41 #x09 #x81 #x71 #x01 #x81 #x71 #x09 #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09 #x41 #x00 #x41 #x08 #x81 #x71 #x82 #x71 #x0A #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09 #x41 #x00 #x41 #x09 #x81 #x71 #x81 #x72 #x09 #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09 #x41 #x00 #x41 #x07 #x82 #x75 #x09 #x41 #x00 #x41 #x06 #x82 #x77 #x08 #x41 #x00 #x41 #x05 #x82 #x73 #x83 #x73 #x07 #x41 #x00 #x41 #x04 #x82 #x73 #x03 #x82 #x73 #x06 #x41 #x00 #x41 #x03 #x82 #xF3 #x05 #x82 #xF3 #x05 #x41 #x00 #x41 #x03 #x81 #x73 #x07 #x82 #x73 #x04 #x41 #x00 #x41 #x03 #x81 #x73 #x08 #x81 #x73 #x04 #x41 #x00 #x41 #x03 #x84 #x07 #x85 #x04 #x41 #x00 #x41 #x04 #x81 #x73 #x05 #x82 #x73 #x05 #x41 #x00 #x41 #x05 #x81 #x73 #x03 #x82 #x73 #x06 #x41 #x00 #x41 #x06 #x81 #x73 #x83 #x73 #x07 #x41 #x00 #x41 #x07 #x81 #x71 #xF1 #x72 #x81 #x72 #x08 #x41 #x00 #x41 #x08 #x81 #xF1 #x72 #x81 #x71 #x09 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x4F #x4A #x00))
+(defvar *test-image*
+  '(#x4F #x4A #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00
+    #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08
+    #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09 #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09
+    #x41 #x00 #x41 #x08 #x81 #x71 #x82 #x71 #x0A #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72 #x09
+    #x41 #x00 #x41 #x09 #x81 #x71 #x01 #x81 #x71 #x09 #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72
+    #x09 #x41 #x00 #x41 #x08 #x81 #x71 #x82 #x71 #x0A #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72
+    #x09 #x41 #x00 #x41 #x09 #x81 #x71 #x81 #x72 #x09 #x41 #x00 #x41 #x08 #x81 #x72 #x81 #x72
+    #x09 #x41 #x00 #x41 #x07 #x82 #x75 #x09 #x41 #x00 #x41 #x06 #x82 #x77 #x08 #x41 #x00 #x41
+    #x05 #x82 #x73 #x83 #x73 #x07 #x41 #x00 #x41 #x04 #x82 #x73 #x03 #x82 #x73 #x06 #x41 #x00
+    #x41 #x03 #x82 #xF3 #x05 #x82 #xF3 #x05 #x41 #x00 #x41 #x03 #x81 #x73 #x07 #x82 #x73 #x04
+    #x41 #x00 #x41 #x03 #x81 #x73 #x08 #x81 #x73 #x04 #x41 #x00 #x41 #x03 #x84 #x07 #x85 #x04
+    #x41 #x00 #x41 #x04 #x81 #x73 #x05 #x82 #x73 #x05 #x41 #x00 #x41 #x05 #x81 #x73 #x03 #x82
+    #x73 #x06 #x41 #x00 #x41 #x06 #x81 #x73 #x83 #x73 #x07 #x41 #x00 #x41 #x07 #x81 #x71 #xF1
+    #x72 #x81 #x72 #x08 #x41 #x00 #x41 #x08 #x81 #xF1 #x72 #x81 #x71 #x09 #x41 #x00 #x41 #x0F
+    #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00 #x41 #x0F #x08 #x41 #x00
+    #x41 #x0F #x08 #x41 #x00 #x4F #x4A #x00))
 
-(defvar palette
+(defvar *palette*
   '((#x00 #x00 #x00) (#x00 #x00 #xAA) (#x00 #xAA #x00) (#x00 #xAA #xAA) (#xAA #x00 #x00)
     (#xAA #x00 #xAA) (#xAA #x55 #x00) (#xAA #xAA #xAA) (#x55 #x55 #x55) (#x55 #x55 #xFF)
     (#x55 #xFF #x55) (#x55 #xFF #xFF) (#xFF #x55 #x55) (#xFF #x55 #xFF) (#xFF #xFF #x55)
@@ -20,16 +36,15 @@
 
 (defun draw-cel-data (renderer x y pixels)
   (if pixels
-      (destructuring-bind (pixel . rest) pixels
-          (if (equal pixel '(0 0))
+      (destructuring-bind ((color n0) . rest) pixels
+          (if (and (= color 0) (= n0 0))
               (draw-cel-data renderer 0 (1+ y) rest)
-              (let* ((color (car pixel))
-                     (rgb (nth color palette))
+              (let* ((rgb (nth color *palette*))
                      (r (car rgb))
                      (g (cadr rgb))
                      (b (caddr rgb))
                      (a #xFF)
-                     (n (+ x (* 2 (cadr pixel)))))
+                     (n (+ x (* 2 n0))))
                 (sdl2:set-render-draw-color renderer r g b a)
                 (do ((i x (1+ i)))
                     ((= i n) nil)
@@ -37,7 +52,7 @@
                 (draw-cel-data renderer n y rest))))))
 
 (defun read-cel-data ()
-  (mapcar #'convert-cel-data test-image))
+  (mapcar #'convert-cel-data *test-image*))
 
 (defun convert-cel-data (byte)
   "Reads a list of bytes and transforming them into a list of pairs containing pixel RLE data."
@@ -48,7 +63,7 @@
 (defmacro with-window-renderer ((window renderer) &body body)
   `(sdl2:with-init (:video)
      (sdl2:with-window (,window
-                        :title "SDL2 Tutorial"
+                        :title "In-game image-rendering test"
                         :w *screen-width*
                         :h *screen-height*
                         :flags '(:shown))
