@@ -52,17 +52,20 @@
               object-rooms strings))))
 
 (defun parse-object-codes (bytes)
-  (let ((r (do ((remaining-bytes (cdr bytes) (cdr remaining-bytes))
-                (next-char (car bytes) (car remaining-bytes))
-                (current-byte-seq nil (if (/= next-char 0)
-                                          (cons next-char current-byte-seq)
-                                          current-byte-seq)))
-               ((or (eql next-char 0) (eql next-char nil))
-                (list remaining-bytes (reverse current-byte-seq))))))
+  (do ((remaining-bytes (cdr bytes) (cdr remaining-bytes))
+       (next-char (car bytes) (car remaining-bytes))
+       (switch nil (= next-char 0))
+       (current-byte-seq nil (if switch
+                                 (list next-char)
+                                 (if (/= next-char 0)
+                                     (cons next-char current-byte-seq)
+                                     current-byte-seq)))
 
-    (if (car r)
-        (cons (cadr r) (parse-object-codes (car r)))
-        (list (cadr r)))))
+       (output nil (if (or (= next-char 0) (eql next-char nil))
+                       (cons (reverse current-byte-seq) output)
+                       output)))
+
+      ((null remaining-bytes) (reverse (cons (reverse current-byte-seq) output)))))
 
 ;;; gives us (index, room-location)
 (defun get-object-room-pairs (triplets i inventory-start)
