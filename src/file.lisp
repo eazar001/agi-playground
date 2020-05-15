@@ -11,7 +11,10 @@
     (read-bytes-to-list stream)))
 
 (defun read-bytes-to-list (stream)
+  (read-bytes-to-list-1 stream nil))
+
+(defun read-bytes-to-list-1 (stream output)
   (let ((b (read-byte stream nil)))
     (if b
-        (cons b (read-bytes-to-list stream))
-        nil)))
+        (read-bytes-to-list-1 stream (cons b output))
+        (reverse output))))

@@ -69,16 +69,13 @@
 
 ;;; gives us (index, room-location)
 (defun get-object-room-pairs (triplets i inventory-start)
-  (let* ((fst (first triplets))
-         (snd (second triplets))
-         (thd (third triplets)))
-
-    (cond ((not fst) nil)
-          ((< (+ (logior (ash snd 8) fst) 3) inventory-start)
-           (get-object-room-pairs (cdddr triplets) i inventory-start))
-          (t (cons
-              (list i thd)
-              (get-object-room-pairs (cdddr triplets) (1+ i) inventory-start))))))
+  (if triplets
+      (destructuring-bind (a b c . rest) triplets
+          (cond ((< (+ (logior (ash b 8) a) 3) inventory-start)
+                 (get-object-room-pairs rest i inventory-start))
+                (t (cons
+                    (list i c)
+                    (get-object-room-pairs rest (1+ i) inventory-start)))))))
 
 (defun extract-object-header-data (bytes)
   (let* ((header (subseq bytes 0 3))

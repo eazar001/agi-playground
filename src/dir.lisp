@@ -20,12 +20,10 @@
 ;;; Reads three hex-encoded bytes from a VIEWDIR file in order to extract info about positioning and offsets in
 ;;; the corresponding VOL file(s); this reader format is for AGI version 2
 (defun read-view-byte-triplet (bytes)
-  (let* ((first-byte (car bytes))
-         (second-byte (cadr bytes))
-         (third-byte (caddr bytes))
-         (vol (nibble first-byte :hi))
-         (next-bit (nibble first-byte :lo))
-         (offset-tail (logior (ash second-byte 8) third-byte))
-         (offset (logior (ash next-bit 16) offset-tail)))
-    ;; data structure contains the number of the volume that contains this data and the offset in that volume
-    (list vol offset)))
+  (destructuring-bind (first-byte second-byte third-byte) bytes
+    (let* ((vol (nibble first-byte :hi))
+           (next-bit (nibble first-byte :lo))
+           (offset-tail (logior (ash second-byte 8) third-byte))
+           (offset (logior (ash next-bit 16) offset-tail)))
+      ;; data structure contains the number of the volume that contains this data and the offset in that volume
+      (list vol offset))))
