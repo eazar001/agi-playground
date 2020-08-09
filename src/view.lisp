@@ -34,20 +34,19 @@
 ;; Extraction of VIEW resources
 
 
-(defun draw-cel-data (renderer x y pixels)
+(defun draw-cel-data (renderer x y pixels alpha)
   (if pixels
       (destructuring-bind ((color n0) . rest) pixels
-        (if (and (= color 0) (= n0 0))
-            (draw-cel-data renderer 0 (1+ y) rest)
+        (if (= color 0 n0)
+            (draw-cel-data renderer 0 (1+ y) rest alpha)
             (let ((rgb (nth color *palette*))
-                  (a #xFF)
                   (n (+ x (* 2 n0))))
               (destructuring-bind (r g b) rgb
-                (sdl2:set-render-draw-color renderer r g b a))
+                (sdl2:set-render-draw-color renderer r g b alpha))
               (do ((i x (1+ i)))
-                  ((= i n) nil)
+                  ((= i n))
                 (sdl2::render-draw-point renderer i y))
-              (draw-cel-data renderer n y rest))))))
+              (draw-cel-data renderer n y rest alpha))))))
 
 (defun read-cel-data ()
   (mapcar #'convert-cel-data *test-image*))
@@ -69,9 +68,12 @@
                            ,@body))))
 
 (defun test ()
-  (with-window-renderer (window renderer)
-    (sdl2:set-render-draw-color renderer #xFF #xFF #xFF #xFF)
-    (sdl2:render-clear renderer)
-    (draw-cel-data renderer 0 0 (read-cel-data))
-    (sdl2:render-present renderer)
-    (sdl2::delay 5000)))
+  (let ((alpha #xFF)
+        (blend-mode #x01))
+    (with-window-renderer (window renderer)
+      (sdl2:set-render-draw-blend-mode renderer blend-mode)
+      (sdl2:set-render-draw-color renderer #xFF #xFF #xFF #xFF)
+      (sdl2:render-clear renderer)
+      (draw-cel-data renderer 0 0 (read-cel-data) alpha)
+      (sdl2:render-present renderer)
+      (sdl2::delay 5000))))

@@ -32,8 +32,7 @@
          (key-len (list-length key-bytes))
          (c (multiple-value-list (floor (/ source-len key-len))))
          (key-cycles (+ (car c) (numerator (cadr c))))
-         (key-cycle-bytes (apply #'concatenate 'list (loop for i from 1 to key-cycles
-                                                        collect (loop for b in key-bytes collect b)))))
+         (key-cycle-bytes (apply #'concatenate 'list (loop repeat key-cycles collect key-bytes))))
     (mapcar #'logxor key-cycle-bytes source-bytes)))
 
 (defun key-string-to-bytes (key-string)
@@ -43,6 +42,8 @@
 ;;; simply decrypt the object file as with decrypt-object-file but instead send the bytes
 ;;; to a new output file
 (defun decrypt-object-to-file (file-path new-file-path)
-  (with-open-file (stream new-file-path :direction :output :element-type '(unsigned-byte 8))
-    (dolist (b (loop for b in (decrypt-object-file file-path) collect b))
+  (with-open-file (stream new-file-path
+                          :direction :output
+                          :element-type '(unsigned-byte 8))
+    (dolist (b (decrypt-object-file file-path))
       (write-byte b stream))))
